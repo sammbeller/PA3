@@ -1,8 +1,8 @@
 #MovieData.rb
 
-require 'Movie'
+load 'Movie.rb'
 
-require 'User'
+load 'User.rb'
 
 class MovieData
 
@@ -42,11 +42,52 @@ class MovieData
 
 	end
 
-	def find_movies
+	def find_movies(hash)
+
+		temp_arr = @movies
+
+		if hash[:year]
+
+			temp_arr = year_search(hash[:year], temp_arr)
+
+		end 
+
+		if hash[:genre]
+
+			
+		end
+
+		
 
 	end
 
-	def find_users
+	def find_users(hash)
+
+		temp_arr = @movies
+
+		if hash[:sex]
+
+			temp_arr = sex_search(hash[:sex], temp_arr)
+
+		end
+
+		if hash[:occupation]
+
+			temp_arr = occ_search(hash[:occupation], temp_arr)
+
+		end
+
+		if hash[:age]
+
+			temp_arr = age_search(hash[:age], temp_arr)
+
+		end
+
+		if hash[:zip]
+
+			
+
+		end
 
 	end
 
@@ -77,6 +118,8 @@ private
 	def load_genres(genre_file)
 
 		IO.foreach(genre_file) do |el|
+
+			puts el
 
 			el = el.split("|")
 
@@ -147,6 +190,7 @@ end
 		This method takes in a file and then, for each line, adds a key of the movie id to mratings the value of which
 		is a hash with key user id and value rating
 		It then adds a key of the user id to uratings the value of which is a hash with key movie id and value rating
+
 =end
 
 	def distribute_reviews(review_file)
@@ -167,7 +211,124 @@ end
 
 	end
 
+
+
+=begin
+
+	String, Array => Array
+
+	This method takes in a String and an Array of Movies, and returns the Array of movies containing those for which the titles 
+	contains the given String.
+
+=end
+
+	def title_search(value, arr)
+
+		arr.select {|el| el.title.include?(value)}
+
+	end
+
+
+
+=begin
+
+	Fixnum, Array => Array
+
+	This method takes in a Fixnum representing a genre, and an Array of Movies. It returns the Array of Moives containing those
+	given genre
+
+=end
+
+	def genre_search(value,arr)
+
+		arr.select {|el| el.genres[value]}
+
+	end
+
+
+
+=begin
+
+	Fixnum or Range, Array => Array
+
+	This method takes in an Array of Movie objects and either a Fixnum representing a year or a Range
+	representing a range of years and then returns an array of those Movies which match that Fixnum or Range
+
+=end
+
+	def year_search(value, arr)
+
+		if value.class == Fixnum 
+
+			arr.select {|el| value == el.year}
+
+		else
+
+			arr.select {|el| value.include(el.year)}
+
+		end
+
+	end
+
+
+
+=begin
+
+	Fixnum or Range, Array => Array
+
+	This method takes in an Array of User objects and either a Fixnum representing the User's age or a Range represeting 
+	a range of ages, and then returns an a array of those Users with that age or in that range of ages
+
+=end
+
+	def age_search(value, arr)
+
+		if value.class == Fixnum 
+
+			arr.select {|el| value == el.age}
+
+		else
+
+			arr.select {|el| value.include(el.age)}
+
+		end
+
+	end
+
+	def occ_search(value, arr)
+
+		if value.class == String
+
+			arr.select {|el| el.occupation == value.to_sym}
+
+		else
+
+			arr.select {|el| el.occupation == value}
+
+		end
+
+	end
+
+	def sex_search(value, arr)
+
+		if value.class == String
+
+			arr.select {|el| el.sex == value[0,1].to_sym}
+
+		else
+
+			arr.select {|el| el.sex == value}
+
+		end
+
+	end
+
+	def zip_search(value,arr)
+
+		arr.select {|el| el.zip == value}
+
+	end
+
 end
 
-
-a = MovieData.new("ml-100k")
+a = Movie.new('ml-100k')
