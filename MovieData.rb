@@ -8,6 +8,19 @@ class MovieData
 
 	attr_reader :mratings, :uratings, :movies, :users, :genres
 
+
+
+=begin
+	
+	String => MovieData
+
+	This method creates a new MovieData object by taking in a folder name, creating the pertinent files, and distributing those files to methods
+	which read these files and create the appropriate data.
+
+	Called with MovieData.new
+
+=end
+
 	def initialize(folder_name)
 
 		@mratings = Hash.new
@@ -42,6 +55,16 @@ class MovieData
 
 	end
 
+
+
+=begin
+
+	Hash => Array
+
+	Thie method takes in a Hash specifiying Movie fields and their desired values and, for each field present,
+
+=end
+
 	def find_movies(hash)
 
 		temp_arr = @movies
@@ -65,6 +88,16 @@ class MovieData
 		end		
 
 	end
+
+
+
+=begin
+
+	Hash => Array
+
+	This method takes in a
+
+=end
 
 	def find_users(hash)
 
@@ -96,15 +129,36 @@ class MovieData
 
 	end
 
+
+
+=begin
+
+	Symbol, Fixnum => Array
+
+	This method takes in a Symbol representing a Movie's genre and a Fixnum representing a Movie's release year, and returns an Array of those Movie
+	objects of the given genre and released in that year.
+
+=end
+
 	def test_movies(genre, year)
 
 		find_movies({genre: genre, year: year})
 
 	end
 
+
+
+=begin
+
+=end
+
 	def test_users(agerange, sex, n)
 
 		user_arr = find_users({age: agerange, sex: sex})
+
+		movie_arr = Array.new
+
+		user_arr.each {|el| movie_arr += uratings[el].keys}
 
 	end
 
@@ -143,6 +197,7 @@ private
 	File => Array[Movie]
 
 	This method takes in a file and, for each line, creates a Movie object 
+
 =end
 
 	def load_movies(movie_file)

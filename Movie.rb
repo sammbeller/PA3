@@ -36,4 +36,11 @@ class Movie
 
 	end
 
+
+	def to_s
+
+		@title
+
+	end
+
 end
