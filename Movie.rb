@@ -15,6 +15,13 @@ class Movie
 
 	end
 
+
+
+=begin
+
+	Array => Array
+=end
+
 	def load_genres(tag_arr)
 
 		@genres = Array.new(tag_arr.size)

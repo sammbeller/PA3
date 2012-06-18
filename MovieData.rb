@@ -54,16 +54,21 @@ class MovieData
 
 		if hash[:genre]
 
-			
+			temp_arr = genre_search(@genres[hash[:genre]])
+
 		end
 
-		
+		if hash[:title]
+
+			temp_arr = title_search(hash[:title], temp_arr)
+
+		end		
 
 	end
 
 	def find_users(hash)
 
-		temp_arr = @movies
+		temp_arr = @users
 
 		if hash[:sex]
 
@@ -85,17 +90,21 @@ class MovieData
 
 		if hash[:zip]
 
-			
+			temp_arr = zip_search(hash[:zip], temp_arr)
 
 		end
 
 	end
 
-	def test_movies
+	def test_movies(genre, year)
+
+		find_movies({genre: genre, year: year})
 
 	end
 
-	def test_users
+	def test_users(agerange, sex, n)
+
+		user_arr = find_users({age: agerange, sex: sex})
 
 	end
 
@@ -117,9 +126,7 @@ private
 
 	def load_genres(genre_file)
 
-		IO.foreach(genre_file) do |el|
-
-			puts el
+		genre_file.each_line do |el|
 
 			el = el.split("|")
 
@@ -142,7 +149,7 @@ private
 
 		i = 0
 
-		IO.foreach(movie_file) do |el|
+		movie_file.each_line do |el|
 
 			el = el.split("|")
 
@@ -176,9 +183,9 @@ private
 
 			i += 1
 
-	end
+		end
 
-end
+	end
 
 
 
@@ -295,6 +302,17 @@ end
 
 	end
 
+
+
+=begin
+
+	Symbol or String, Array => Array
+
+	This method takes in a Symbol or String representing occupation, an Array of User objects. It returns those Users
+	with the given occupation.
+
+=end
+
 	def occ_search(value, arr)
 
 		if value.class == String
@@ -309,6 +327,17 @@ end
 
 	end
 
+
+
+=begin
+
+	String and Symbol, Array => Array
+	
+	This method takes in either a Symbol, or a String denoting sex, and an Array of User objects. It then returns an Array of those
+	Users of the given sex.
+
+=end
+
 	def sex_search(value, arr)
 
 		if value.class == String
@@ -322,6 +351,17 @@ end
 		end
 
 	end
+
+
+
+=begin
+
+	Fixnum, Array => Array
+
+	This method take in a Fisnum representing a zip code, and an Array of User objects and returns an Array of those User objects
+	with that zip code
+
+=end
 
 	def zip_search(value,arr)
 
