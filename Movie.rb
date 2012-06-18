@@ -7,6 +7,8 @@ class Movie
 
 	def initialize(movie_array)
 
+		puts movie_array
+
 		@title = movie_array[1]
 
 		@year = movie_array[2].split("-")[2]
